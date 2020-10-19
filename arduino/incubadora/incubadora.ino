@@ -1,5 +1,4 @@
 #include <DHT.h>
-#include <DHT_U.h>
 #include <Wire.h>
 #include "RTClib.h"
 #include <string.h>
@@ -31,6 +30,7 @@ int RTC1, RTC2, RTC3;
 uint32_t count = 3590;
 char buff[50];
 int alm_h, alm_m, alm_s;
+int times=0;
 /////////////////////////////////////////////////////////////////////////
 
 void setup()
@@ -92,7 +92,9 @@ void ParseData() // split the data into its parts
 
   Data = strtok(NULL, " :");
   RTC3 = atoi(Data); // Seg
-} // T H:M:S H:M:S
+  DateTime tempoRTC = rtc.now();
+  rtc.adjust(DateTime(tempoRTC.year(),tempoRTC.month(),tempoRTC.day(),RTC1, RTC2,RTC3));
+ } // T H:M:S H:M:S
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -118,13 +120,13 @@ void loop()
       }
     }
   }
-  // delay(2000);
+   delay(2000);
 
   //Read data and store it to variables hum and temp
   char buffer_v[50];
   hum = dht.readHumidity();
   temp = dht.readTemperature();
-
+   
   if (FAN1 == HIGH)
   {
     if (FAN2 == HIGH)
@@ -139,7 +141,6 @@ void loop()
   }
   else
     fan = 0;
-
   DateTime tempoRTC = rtc.now();
   sprintf(buff, "TS:%d.%02d", (int)T, (int)(T * 100) % 100);
   Serial.println(buff);
@@ -160,17 +161,17 @@ void loop()
     alm_m = RTC2 + ALM2;
     alm_s = RTC3 + ALM3;
 
-    if (alm_s > 60)
+    if (alm_s >= 60)
     {
       alm_h = alm_h - 60;
       alm_m = alm_m + 1;
     }
-    if (alm_m > 60)
+    if (alm_m >= 60)
     {
       alm_m = alm_m - 60;
       alm_h = alm_h + 1;
     }
-    if (alm_h > 24)
+    if (alm_h >= 24)
     {
       alm_h = alm_h - 24;
     }
@@ -246,12 +247,23 @@ void loop()
   }
   if (tempoRTC.hour() == alm_h)
   {
-    if (tempoRTC.minute() - alm_m <= 2)
+    if (tempoRTC.minute() <= 2 + alm_m)
     {
+      times=times+1;
+      if(times==10){
       tone(BUZZERPIN, 1000);
       delay(1000);
       noTone(BUZZERPIN);
       delay(1000);
+      times=0;
+      }
+      if (tempoRTC.second()<= 10+alm_s)
+    {
+      tone(BUZZERPIN, 1000);
+      delay(2000);
+      noTone(BUZZERPIN);
+      delay(1000);
+      }
     }
   }
   temph = temp;
