@@ -74,6 +74,8 @@ void ParseData() // split the data into its parts
   Data = strtok(buff, " :");
 
   T = atof(Data); //Temp
+  temp1 = T - 0.5;
+  temp2 = T + 0.5;
 
   Data = strtok(NULL, " :");
   ALM1 = atoi(Data); // Hora
@@ -127,35 +129,7 @@ void loop()
   hum = dht.readHumidity();
   temp = dht.readTemperature();
    
-  if (FAN1 == HIGH)
-  {
-    if (FAN2 == HIGH)
-    {
-      if (FAN3 == HIGH)
-        fan = 100;
-      else
-        fan = 2 * 100 / 3;
-    }
-    else
-      fan = 100 / 3;
-  }
-  else
-    fan = 0;
-  DateTime tempoRTC = rtc.now();
-  sprintf(buff, "TS:%d.%02d", (int)T, (int)(T * 100) % 100);
-  Serial.println(buff);
-  sprintf(buff, "TR:%d.%02d", (int)temp, (int)(temp * 100) % 100);
-  Serial.println(buff);
-  sprintf(buff, "HM:%d.%02d", (int)hum, (int)(hum * 100) % 100);
-  Serial.println(buff);
-  sprintf(buff, "FAN:%d.%02d", (int)fan, (int)(fan * 100) % 100);
-  Serial.println(buff);
-  sprintf(buff, "ALM:%.02d:%.02d:%.02d", ALM1, ALM2, ALM3);
-  Serial.println(buff);
-  sprintf(buff, "RTC:%.02d:%.02d:%.02d", tempoRTC.hour(), tempoRTC.minute(), tempoRTC.second());
-  Serial.println(buff);
-
-  if (alm_time == 0)
+   if (alm_time == 0)
   {
     alm_h = RTC1 + ALM1;
     alm_m = RTC2 + ALM2;
@@ -179,11 +153,8 @@ void loop()
     alm_time = 1;
   }
 
-  temp1 = T - 0.5;
-  temp2 = T + 0.5;
-
   if (temp < temp1)
-  { //Temperatua baixa
+  { //Temperatura baixa
     if (temp > temp1 - 0.5)
     { //Próximo ao valor ideal
       if (temp > temph)
@@ -245,9 +216,39 @@ void loop()
       delay(1000);
     }
   }
+     if (digitalRead(FAN1)==HIGH)
+  {
+    if (digitalRead(FAN2)==HIGH)
+    {
+      if (digitalRead(FAN3)==HIGH)
+        fan = 100;
+      else
+        fan = 2*100/3;
+    }
+    else
+      fan = 100/3;
+  }
+  else
+  {
+    fan = 0;
+  }
+  DateTime tempoRTC = rtc.now();
+  sprintf(buff, "TS:%d.%02d", (int)T, (int)(T * 100) % 100);
+  Serial.println(buff);
+  sprintf(buff, "TR:%d.%02d", (int)temp, (int)(temp * 100) % 100);
+  Serial.println(buff);
+  sprintf(buff, "HM:%d.%02d", (int)hum, (int)(hum * 100) % 100);
+  Serial.println(buff);
+  sprintf(buff, "FAN:%d.%02d", (int)fan, (int)(fan * 100) % 100);
+  Serial.println(buff);
+  sprintf(buff, "ALM:%.02d:%.02d:%.02d", ALM1, ALM2, ALM3);
+  Serial.println(buff);
+  sprintf(buff, "RTC:%.02d:%.02d:%.02d", tempoRTC.hour(), tempoRTC.minute(), tempoRTC.second());
+  Serial.println(buff);
+  
   if (tempoRTC.hour() == alm_h)
   {
-    if (tempoRTC.minute() <= 2 + alm_m)
+    if (alm_m-tempoRTC.minute() <= 2 )
     {
       times=times+1;
       if(times==10){
@@ -257,7 +258,7 @@ void loop()
       delay(1000);
       times=0;
       }
-      if (tempoRTC.second()<= 10+alm_s)
+      if (alm_s-tempoRTC.second()<= 10)
     {
       tone(BUZZERPIN, 1000);
       delay(2000);
