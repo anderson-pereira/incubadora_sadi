@@ -1,113 +1,260 @@
-/*
-  ASCII table
+#include <DHT.h>
+#include <DHT_U.h>
+#include <Wire.h>
+#include "RTClib.h"
+#include <string.h>
 
-  Prints out byte values in all possible formats:
-  - as raw binary values
-  - as ASCII-encoded decimal, hex, octal, and binary values
+/////////////////////////////////////////////////////////////////////////
 
-  For more on ASCII, see http://www.asciitable.com and http://en.wikipedia.org/wiki/ASCII
+#define DHTPIN 7
+#define DHTTYPE DHT22
+#define BUZZERPIN 9
+#define RELAY 4
 
-  The circuit: No external hardware needed.
+#define FAN1 10
+#define FAN2 11
+#define FAN3 12
 
-  created 2006
-  by Nicholas Zambetti <http://www.zambetti.com>
-  modified 9 Apr 2012
-  by Tom Igoe
+/////////////////////////////////////////////////////////////////////////
 
-  This example code is in the public domain.
+DHT dht(DHTPIN, DHTTYPE);
+RTC_DS1307 rtc;
 
-  http://www.arduino.cc/en/Tutorial/ASCIITable
-*/
-
-typedef struct {
-  uint8_t hour;
-  uint8_t minutes;
-  uint8_t seconds;
-} time_t;
-
-typedef struct {
-  float ts;
-  uint8_t fan;
-  time_t alm;
-  time_t rtc;
-} configs_t ;
-
-void setup() {
-  //Initialize serial and wait for port to open:
-  Serial.begin(9600);
-  randomSeed(analogRead(0));
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
-}
-
+float hum;   //Stores humidity value
+float temp;  //Stores temperature value
+float temph; //Holds temperature value
+float fan;
+int alm_time = 0;
+float T,temp1, temp2;
+int ALM1, ALM2, ALM3;
+int RTC1, RTC2, RTC3;
 uint32_t count = 3590;
 char buff[50];
+int alm_h, alm_m, alm_s;
+/////////////////////////////////////////////////////////////////////////
 
-void read_configs_val (configs_t * configs, char * in_string) {
-  char * str_pos = in_string;
-  char * last_pos = str_pos;
+void setup()
+{
 
-  char buff[10];
-  char current_char = in_string[0];
-  str_pos ++; // O primeiro elemento já está em current_char
+  pinMode(BUZZERPIN, OUTPUT);
+  pinMode(RELAY, OUTPUT);
+  pinMode(FAN1, OUTPUT);
+  pinMode(FAN2, OUTPUT);
+  pinMode(FAN3, OUTPUT);
+  digitalWrite(RELAY, HIGH);
 
-  uint8_t buff_pos = 0;
-
-  while(1) {
-    while (current_char != ' ' && current_char != 0) {
-      buff[buff_pos++] = current_char;
-      current_char = *(str_pos++);
-    }
-
-    buff[buff_pos] = 0;
-    buff_pos = 0;
-
-    while (current_char == ' ') current_char = *(str_pos++);
-
-    last_pos = str_pos-1;
-    Serial.println(buff);
-    
-    if (current_char == 0) break;
+  Serial.begin(9600);
+  while (!Serial)
+  {
+    ; // wait for serial port to connect. Needed for native USB port only
   }
+
+  dht.begin();
+  if (!rtc.begin())
+  {
+    while (1)
+      ;
+  }
+  if (!rtc.isrunning())
+  {
+    // Aktuelles Datum und Zeit setzen, falls die Uhr noch nicht läuft
+    rtc.adjust(DateTime(__DATE__, __TIME__));
+  }
+  delay(2000);
+  temph = dht.readTemperature();
+  T = 37.5;
 }
 
-void loop() {
-  if(Serial.available()){
+/////////////////////////////////////////////////////////////////////////
+
+void ParseData() // split the data into its parts
+{
+  char *Data; // this is used by strtok() as an index
+
+  Data = strtok(buff, " :");
+
+  T = atof(Data); //Temp
+
+  Data = strtok(NULL, " :");
+  ALM1 = atoi(Data); // Hora
+
+  Data = strtok(NULL, " :");
+  ALM2 = atoi(Data); // Min
+
+  Data = strtok(NULL, " :");
+  ALM3 = atoi(Data); // Seg
+
+  Data = strtok(NULL, " :");
+  RTC1 = atoi(Data); // Hora
+
+  Data = strtok(NULL, " :");
+  RTC2 = atoi(Data); // Min
+
+  Data = strtok(NULL, " :");
+  RTC3 = atoi(Data); // Seg
+} // T H:M:S H:M:S
+
+/////////////////////////////////////////////////////////////////////////
+
+void loop()
+{
+
+  if (Serial.available())
+  { //Teste papra recebimendo de dados da interface
     static uint8_t pos = 0;
-    while (Serial.available()) {
-      if ((buff[pos++] = Serial.read()) == '\n'){
-        buff[pos-1] = 0; // Remove o '/n' do fim da string
+    while (Serial.available())
+    {
+      if ((buff[pos++] = Serial.read()) == '\n')
+      {
+        buff[pos - 1] = 0; // Remove o '/n' do fim da string
         pos = 0;
-        // Serial.print(buff);
-        while (Serial.available()) Serial.read(); // Esvazia o resto do buffer que tiver    
-        read_configs_val(NULL, buff );
-        break;  
+
+        ParseData();
+        alm_time = 0;
+
+        while (Serial.available())
+          Serial.read(); // Esvazia o resto do buffer que tiver
+        break;
       }
     }
   }
+  // delay(2000);
 
+  //Read data and store it to variables hum and temp
+  char buffer_v[50];
+  hum = dht.readHumidity();
+  temp = dht.readTemperature();
 
+  if (FAN1 == HIGH)
+  {
+    if (FAN2 == HIGH)
+    {
+      if (FAN3 == HIGH)
+        fan = 100;
+      else
+        fan = 2 * 100 / 3;
+    }
+    else
+      fan = 100 / 3;
+  }
+  else
+    fan = 0;
 
-  // if(Serial.available()){ 
-  //   delay(100);
-  //   while(Serial.available()) Serial.read(); // seca o buffer de entrada para retransmitir quando receber algo novo
-    
-  //   long randNumber = random(370, 430);
-  //   count ++;
+  DateTime tempoRTC = rtc.now();
+  sprintf(buff, "TS:%d.%02d", (int)T, (int)(T * 100) % 100);
+  Serial.println(buff);
+  sprintf(buff, "TR:%d.%02d", (int)temp, (int)(temp * 100) % 100);
+  Serial.println(buff);
+  sprintf(buff, "HM:%d.%02d", (int)hum, (int)(hum * 100) % 100);
+  Serial.println(buff);
+  sprintf(buff, "FAN:%d.%02d", (int)fan, (int)(fan * 100) % 100);
+  Serial.println(buff);
+  sprintf(buff, "ALM:%.02d:%.02d:%.02d", ALM1, ALM2, ALM3);
+  Serial.println(buff);
+  sprintf(buff, "RTC:%.02d:%.02d:%.02d", tempoRTC.hour(), tempoRTC.minute(), tempoRTC.second());
+  Serial.println(buff);
 
-  //   uint8_t tempVar = 0;
-  //   uint8_t segundos =count%60;
-  //   tempVar = (count - segundos)/60;
-  //   uint8_t minutos = tempVar%60;
-  //   uint8_t horas = (tempVar - minutos)/60;
-    
-  //   Serial.print(">TS:"); Serial.println((float)randNumber/10.0, 2);
-  //   Serial.print(">TR:"); Serial.println((float)randNumber/10.0-5.0, 2);
-  //   Serial.print(">HM:"); Serial.println((float)randNumber/10.0+25.0, 2);
-  //   Serial.print(">FAN:"); Serial.println(segundos);
-  //   Serial.println(">ALM:10:00:00");
-  //   sprintf(buff, ">RTC:%02d:%02d:%02d", horas,minutos,segundos );
-  //   Serial.println(buff);
-  // }
+  if (alm_time == 0)
+  {
+    alm_h = RTC1 + ALM1;
+    alm_m = RTC2 + ALM2;
+    alm_s = RTC3 + ALM3;
+
+    if (alm_s > 60)
+    {
+      alm_h = alm_h - 60;
+      alm_m = alm_m + 1;
+    }
+    if (alm_m > 60)
+    {
+      alm_m = alm_m - 60;
+      alm_h = alm_h + 1;
+    }
+    if (alm_h > 24)
+    {
+      alm_h = alm_h - 24;
+    }
+
+    alm_time = 1;
+  }
+
+  temp1 = T - 0.5;
+  temp2 = T + 0.5;
+
+  if (temp < temp1)
+  { //Temperatua baixa
+    if (temp > temp1 - 0.5)
+    { //Próximo ao valor ideal
+      if (temp > temph)
+      { //Temperatura aumentando, esperar
+        delay(1000);
+      }
+      else
+      { //Temperatura Diminuindo, ligar lâmpada
+        digitalWrite(RELAY, LOW);
+        delay(1000);
+      }
+    }
+    else
+    { // Temperatura muito baixa, desligar ventilador, ligar lâmpada
+      digitalWrite(RELAY, LOW);
+      delay(1000);
+      digitalWrite(FAN1, LOW);
+      digitalWrite(FAN2, LOW);
+      digitalWrite(FAN3, LOW);
+      delay(1000);
+    }
+  }
+  else if (temp > temp2)
+  { //Temperatura alta
+    if (temp < temp2 + 0.5)
+    { //Próximo ao valor ideal
+      if (temp < temph)
+      { //Temperatura diminuindo, esperar
+        delay(1000);
+      }
+      else
+      { //Temperatura Aumentando, desligar lâmpada
+        digitalWrite(RELAY, HIGH);
+        delay(1000);
+      }
+    }
+    else
+    { // Temperatura muito alta, ligar ventilador, desligar lâmpada
+      digitalWrite(RELAY, HIGH);
+      delay(1000);
+      digitalWrite(FAN1, HIGH);
+      digitalWrite(FAN2, HIGH);
+      digitalWrite(FAN3, HIGH);
+      delay(1000);
+    }
+  }
+  else
+  {
+    if (temp > temph)
+    { // Temperatura aumentando
+      digitalWrite(FAN1, HIGH);
+      digitalWrite(FAN2, LOW);
+      digitalWrite(FAN3, LOW);
+      delay(1000);
+    }
+    if (temp < temph)
+    { // Temperatura diminuindo
+      digitalWrite(RELAY, LOW);
+      delay(1000);
+    }
+  }
+  if (tempoRTC.hour() == alm_h)
+  {
+    if (tempoRTC.minute() - alm_m <= 2)
+    {
+      tone(BUZZERPIN, 1000);
+      delay(1000);
+      noTone(BUZZERPIN);
+      delay(1000);
+    }
+  }
+  temph = temp;
 }
+
+/////////////////////////////////////////////////////////////////////////

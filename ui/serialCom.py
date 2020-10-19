@@ -19,7 +19,7 @@ regexList = [
     r'(TS):(\d{1,2}.\d{1,2})[\n\r]*$',
     r'(TR):(\d{1,2}.\d{1,2})[\n\r]*$',
     r'(HM):(\d{1,2}.\d{1,2})[\n\r]*$',
-    r'(FAN):(\d{1,2})[\n\r]*$',    
+    r'(FAN):(\d{1,2}.\d{1,2})[\n\r]*$',    
     r'(ALM):(\d{1,2}:\d{1,2}:\d{1,2})[\n\r]*$',    
     r'(RTC):(\d{1,2}:\d{1,2}:\d{1,2})[\n\r]*$'
 ]
@@ -34,7 +34,7 @@ def getSerialPorts () :
 def initSerialCom (serialDevice) :
     global portaSerial, expressoesRegulares
 
-    portaSerial = serial.Serial(serialDevice, 9600, timeout=0.5)
+    portaSerial = serial.Serial(serialDevice, 9600, timeout=0.1)
     
     for rgx in regexList:
         expressoesRegulares.append(re.compile(rgx))
@@ -56,13 +56,16 @@ def closeSerialCom () :
 def readDataFromSerial () :
     rectMsg = list()
     try:
-        portaSerial.write(b's')
-        portaSerial.flushInput()
+        # portaSerial.write(b's')
+        # portaSerial.flushInput()
         for _ in range(len(expressoesRegulares)) :
             rectMsg.append( portaSerial.readline().decode() )
     except Exception as err:
         print (err)
+        portaSerial.flushInput()
         return 0
+    portaSerial.flushInput()
+    print (rectMsg)
     return rectMsg
 
 def sendDataToSerial (data) :
@@ -77,11 +80,9 @@ def dataParse (msgList) :
     
     for i in range(len(msgList)):
         reSearch = expressoesRegulares[i].search(msgList[i])
+        print(reSearch)
         if reSearch :
-            if reSearch.group(1) == 'PI' :
-                checkedVals[reSearch.group(1)] = [reSearch.group(2), reSearch.group(3)]
-            else :
-                checkedVals[reSearch.group(1)] = reSearch.group(2)
+            checkedVals[reSearch.group(1)] = reSearch.group(2)
         else :
             return 0
     

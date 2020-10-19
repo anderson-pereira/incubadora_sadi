@@ -23,7 +23,6 @@ class Ui(QtWidgets.QMainWindow):
         self.redefinirButton.clicked.connect(self.redefinirConfigs)
 
         self.tempRefTextBox = self.findChild(QtWidgets.QDoubleSpinBox, 'tempRef')
-        self.fanSpeedTextBox = self.findChild(QtWidgets.QDoubleSpinBox, 'fanSpeed')
         self.periodoAlertaTimeEdit = self.findChild(QtWidgets.QTimeEdit, 'periodoAlerta')
 
         self.tempAmbInfo = self.findChild(QtWidgets.QLineEdit, 'tempAmbInfo')
@@ -32,7 +31,6 @@ class Ui(QtWidgets.QMainWindow):
         self.umidadeInfo = self.findChild(QtWidgets.QLineEdit, 'umidadeInfo')
         self.periodoAlertaInfo = self.findChild(QtWidgets.QTimeEdit, 'periodoAlertaInfo')
         self.rtcTime = self.findChild(QtWidgets.QTimeEdit, 'rtcTime')
-        self.rtcUpdate = self.findChild(QtWidgets.QCheckBox, 'rtcUpdate')
         self.serialPort = self.findChild(QtWidgets.QComboBox, 'serialPort')
 
         for port in serialCom.getSerialPorts():
@@ -50,6 +48,7 @@ class Ui(QtWidgets.QMainWindow):
 
     def connectSerialPort(self) :
         self.serialPort.setEnabled(False)
+        self.connectarButton.setEnabled(False)
         serialCom.initSerialCom(self.serialPort.currentText())
         time.sleep(1)
         self.configuredSerial = True
@@ -68,10 +67,9 @@ class Ui(QtWidgets.QMainWindow):
 
         msg.setWindowTitle("Valores digitados")
         
-        RTC = datetime.now().strftime("%H:%M:%S") if self.rtcUpdate.checkState() else 'no'
-        # >TS:{} FAN:{} ALM:{} RTC:{}
-        strToUpdate = '{} {} {} {}\n'.format(self.tempRefTextBox.text(), 
-                self.fanSpeedTextBox.text(), 
+        RTC = datetime.now().strftime("%H:%M:%S")
+        # >TS:{} ALM:{} RTC:{}
+        strToUpdate = '{} {} {}\n'.format(self.tempRefTextBox.text(), 
                 self.periodoAlertaTimeEdit.text(), 
                 RTC
             )
