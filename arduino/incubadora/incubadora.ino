@@ -29,7 +29,6 @@ int ALM1, ALM2, ALM3;
 int RTC1, RTC2, RTC3;
 uint32_t count = 3590;
 char buff[50];
-int alm_h, alm_m, alm_s;
 int times=0;
 /////////////////////////////////////////////////////////////////////////
 
@@ -114,8 +113,6 @@ void loop()
         pos = 0;
 
         ParseData();
-        alm_time = 0;
-
         while (Serial.available())
           Serial.read(); // Esvazia o resto do buffer que tiver
         break;
@@ -128,31 +125,7 @@ void loop()
   char buffer_v[50];
   hum = dht.readHumidity();
   temp = dht.readTemperature();
-   
-   if (alm_time == 0)
-  {
-    alm_h = RTC1 + ALM1;
-    alm_m = RTC2 + ALM2;
-    alm_s = RTC3 + ALM3;
-
-    if (alm_s >= 60)
-    {
-      alm_h = alm_h - 60;
-      alm_m = alm_m + 1;
-    }
-    if (alm_m >= 60)
-    {
-      alm_m = alm_m - 60;
-      alm_h = alm_h + 1;
-    }
-    if (alm_h >= 24)
-    {
-      alm_h = alm_h - 24;
-    }
-
-    alm_time = 1;
-  }
-
+ 
   if (temp < temp1)
   { //Temperatura baixa
     if (temp > temp1 - 0.5)
@@ -246,9 +219,9 @@ void loop()
   sprintf(buff, "RTC:%.02d:%.02d:%.02d", tempoRTC.hour(), tempoRTC.minute(), tempoRTC.second());
   Serial.println(buff);
   
-  if (tempoRTC.hour() == alm_h)
+  if (tempoRTC.hour() == ALM1)
   {
-    if (alm_m-tempoRTC.minute() <= 2 )
+    if (ALM2-tempoRTC.minute() <= 2 )
     {
       times=times+1;
       if(times==10){
@@ -258,7 +231,7 @@ void loop()
       delay(1000);
       times=0;
       }
-      if (alm_s-tempoRTC.second()<= 10)
+      if (ALM3-tempoRTC.second()<= 10)
     {
       tone(BUZZERPIN, 1000);
       delay(2000);
