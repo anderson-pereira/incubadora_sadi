@@ -22,11 +22,12 @@ RTC_DS1307 rtc;
 float hum;   //Stores humidity value
 float temp;  //Stores temperature value
 float temph; //Holds temperature value
-float fan;
+int fan;
 int alm_time = 0;
 float T,temp1, temp2;
 int ALM1, ALM2, ALM3;
 int RTC1, RTC2, RTC3;
+int M_FAN, ALM_DIS, V_FAN, M_S;
 uint32_t count = 3590;
 char buff[50];
 int times=0;
@@ -77,6 +78,16 @@ void ParseData() // split the data into its parts
   temp2 = T + 0.5;
 
   Data = strtok(NULL, " :");
+  M_FAN = atoi(Data); // Modo do ventilador
+  if(M_FAN!= 1) M_FAN =0;
+
+  Data = strtok(NULL, " :");
+  V_FAN = atoi(Data); // Vel Do Ventilador
+
+  Data = strtok(NULL, " :");
+  ALM_DIS = atoi(Data); // Disarmar Alarme
+
+  Data = strtok(NULL, " :");
   ALM1 = atoi(Data); // Hora
 
   Data = strtok(NULL, " :");
@@ -125,6 +136,29 @@ void loop()
   char buffer_v[50];
   hum = dht.readHumidity();
   temp = dht.readTemperature();
+  if(M_FAN==1){ //fan=V_FAN; 
+    if(V_FAN==0)fan=0;
+    else{
+      if(V_FAN==1)fan=33;
+      else{
+        if(V_FAN==2)fan=66;
+        else{
+          if(V_FAN==3)fan=100;
+            }
+          }
+        }
+    }
+  
+  if((temp> T+3)||(temp<T-3)){
+    M_S = 1;
+    M_FAN = 0;
+    tone(BUZZERPIN, 1000);
+    delay(3000);
+    noTone(BUZZERPIN);
+    delay(1000);
+  }
+  else{M_S=0;}
+
  
   if (temp < temp1)
   { //Temperatura baixa
@@ -144,10 +178,12 @@ void loop()
     { // Temperatura muito baixa, desligar ventilador, ligar lâmpada
       digitalWrite(RELAY, LOW);
       delay(1000);
+      if(M_FAN==0){  // Ventilador no auto
       digitalWrite(FAN1, LOW);
       digitalWrite(FAN2, LOW);
       digitalWrite(FAN3, LOW);
       delay(1000);
+      }
     }
   }
   else if (temp > temp2)
@@ -168,20 +204,24 @@ void loop()
     { // Temperatura muito alta, ligar ventilador, desligar lâmpada
       digitalWrite(RELAY, HIGH);
       delay(1000);
+      if(M_FAN==0){  // Ventilador no auto
       digitalWrite(FAN1, HIGH);
       digitalWrite(FAN2, HIGH);
       digitalWrite(FAN3, HIGH);
       delay(1000);
+      }
     }
   }
   else
   {
     if (temp > temph)
     { // Temperatura aumentando
+      if(M_FAN==0){  // Ventilador no auto
       digitalWrite(FAN1, HIGH);
       digitalWrite(FAN2, LOW);
       digitalWrite(FAN3, LOW);
       delay(1000);
+      }
     }
     if (temp < temph)
     { // Temperatura diminuindo
@@ -189,6 +229,7 @@ void loop()
       delay(1000);
     }
   }
+  
      if (digitalRead(FAN1)==HIGH)
   {
     if (digitalRead(FAN2)==HIGH)
@@ -196,29 +237,36 @@ void loop()
       if (digitalRead(FAN3)==HIGH)
         fan = 100;
       else
-        fan = 2*100/3;
+        fan = 66;
     }
     else
-      fan = 100/3;
+      fan = 33;
   }
   else
   {
     fan = 0;
   }
   DateTime tempoRTC = rtc.now();
-  sprintf(buff, "TS:%d.%02d", (int)T, (int)(T * 100) % 100);
+  sprintf(buff, "TS:%d.%02d", (int)T, (int)(T * 100) % 100); // Temperatura Desejada
   Serial.println(buff);
-  sprintf(buff, "TR:%d.%02d", (int)temp, (int)(temp * 100) % 100);
+  sprintf(buff, "TR:%d.%02d", (int)temp, (int)(temp * 100) % 100); //Temperatura real
   Serial.println(buff);
-  sprintf(buff, "HM:%d.%02d", (int)hum, (int)(hum * 100) % 100);
+  sprintf(buff, "HM:%d.%02d", (int)hum, (int)(hum * 100) % 100); // Umidade
   Serial.println(buff);
-  sprintf(buff, "FAN:%d.%02d", (int)fan, (int)(fan * 100) % 100);
+  sprintf(buff, "FAN_SPEED:%d.%02d", fan); // Vel Ventilador
   Serial.println(buff);
-  sprintf(buff, "ALM:%.02d:%.02d:%.02d", ALM1, ALM2, ALM3);
+  sprintf(buff, "FAN_STATUS:%d", M_FAN); // Modo Ventilador
   Serial.println(buff);
-  sprintf(buff, "RTC:%.02d:%.02d:%.02d", tempoRTC.hour(), tempoRTC.minute(), tempoRTC.second());
+  sprintf(buff, "ALM:%.02d:%.02d:%.02d", ALM1, ALM2, ALM3); // Horário alarme
+  Serial.println(buff);
+  sprintf(buff, "ALM_STATUS:%d", ALM_DIS); //Modo Alarme
+  Serial.println(buff);
+  sprintf(buff, "RTC:%.02d:%.02d:%.02d", tempoRTC.hour(), tempoRTC.minute(), tempoRTC.second()); // Horário local
+  Serial.println(buff);
+  sprintf(buff, "MOD_SEG:%d", M_S); // Modo Segurança
   Serial.println(buff);
   
+  if(ALM_DIS==0){
   if (tempoRTC.hour() == ALM1)
   {
     if (ALM2-tempoRTC.minute() <= 2 )
@@ -239,6 +287,7 @@ void loop()
       delay(1000);
       }
     }
+  }
   }
   temph = temp;
 }
