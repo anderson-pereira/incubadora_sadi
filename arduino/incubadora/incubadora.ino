@@ -265,7 +265,7 @@ void loop()
   Serial.println(buff);
   sprintf(buff, "HM:%d.%02d", (int)hum, (int)(hum * 100) % 100); // Umidade
   Serial.println(buff);
-  sprintf(buff, "FAN_SPEED:%d.%02d", fan); // Vel Ventilador
+  sprintf(buff, "FAN_SPEED:%d", fan); // Vel Ventilador
   Serial.println(buff);
   sprintf(buff, "FAN_STATUS:%d", M_FAN); // Modo Ventilador
   Serial.println(buff);
