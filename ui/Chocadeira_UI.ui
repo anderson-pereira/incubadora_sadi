@@ -1,376 +1,567 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>rtcInfo</class>
- <widget class="QWidget" name="rtcInfo">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>200</height>
+    <width>733</width>
+    <height>481</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>500</width>
-    <height>200</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>500</width>
-    <height>200</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>Chocadeira</string>
+   <string>MainWindow</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>icon.png</normaloff>icon.png</iconset>
-  </property>
-  <property name="locale">
-   <locale language="English" country="UnitedStates"/>
-  </property>
-  <widget class="QTabWidget" name="tabWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>481</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="tabPosition">
-    <enum>QTabWidget::North</enum>
-   </property>
-   <property name="currentIndex">
-    <number>1</number>
-   </property>
-   <widget class="QWidget" name="tab">
-    <attribute name="title">
-     <string>Info</string>
-    </attribute>
-    <widget class="QWidget" name="formLayoutWidget">
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>721</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>240</y>
+       <width>561</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Controles</string>
+     </property>
+     <widget class="QLabel" name="label1">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>19</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Período de Alerta</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QTimeEdit" name="periodoAlerta">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>119</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="dateTime">
+       <datetime>
+        <hour>8</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>2000</year>
+        <month>1</month>
+        <day>1</day>
+       </datetime>
+      </property>
+      <property name="displayFormat">
+       <string>HH:mm:ss</string>
+      </property>
+     </widget>
+     <widget class="QDial" name="TimeDial">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>39</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>47</number>
+      </property>
+      <property name="singleStep">
+       <number>1</number>
+      </property>
+      <property name="pageStep">
+       <number>1</number>
+      </property>
+      <property name="sliderPosition">
+       <number>0</number>
+      </property>
+      <property name="tracking">
+       <bool>true</bool>
+      </property>
+      <property name="wrapping">
+       <bool>false</bool>
+      </property>
+      <property name="notchesVisible">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label4_2">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>19</y>
+        <width>111</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Velocidade do FAN</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="FanSpeedAutoButton">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>119</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AUTO</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QDial" name="fanSpeedDial">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>39</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>3</number>
+      </property>
+      <property name="singleStep">
+       <number>1</number>
+      </property>
+      <property name="pageStep">
+       <number>1</number>
+      </property>
+      <property name="value">
+       <number>3</number>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="invertedControls">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="FanSpeedMan">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>119</y>
+        <width>41</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="statusTip">
+       <string/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhFormattedNumbersOnly</set>
+      </property>
+      <property name="decimals">
+       <number>0</number>
+      </property>
+      <property name="minimum">
+       <double>0.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>3.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>1.000000000000000</double>
+      </property>
+      <property name="value">
+       <double>3.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label2">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>19</y>
+        <width>131</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Temp. de Referência (°C)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="tempRef">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>120</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="statusTip">
+       <string/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhFormattedNumbersOnly</set>
+      </property>
+      <property name="minimum">
+       <double>30.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>50.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.500000000000000</double>
+      </property>
+      <property name="value">
+       <double>37.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QDial" name="tempDial">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>39</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>300</number>
+      </property>
+      <property name="maximum">
+       <number>500</number>
+      </property>
+      <property name="singleStep">
+       <number>1</number>
+      </property>
+      <property name="pageStep">
+       <number>1</number>
+      </property>
+      <property name="value">
+       <number>300</number>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="invertedControls">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>131</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Porta Serial</string>
+      </property>
+      <widget class="QComboBox" name="serialPort">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>111</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="modelColumn">
+        <number>0</number>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="connectarButton">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>111</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Conectar</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>0</y>
+       <width>701</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Monitoramento</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+     <widget class="PlotWidget" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>581</width>
+        <height>201</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>10</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Temperatura(°C)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="tempAmbInfo">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="digitCount">
+       <number>5</number>
+      </property>
+      <property name="segmentStyle">
+       <enum>QLCDNumber::Flat</enum>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="umidadeInfo">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>90</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="digitCount">
+       <number>5</number>
+      </property>
+      <property name="segmentStyle">
+       <enum>QLCDNumber::Flat</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>70</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Umidade (%)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="FanSpeedInfo">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>150</y>
+        <width>91</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>130</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Velocidade do Fan</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_4">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
-       <width>441</width>
-       <height>126</height>
+       <y>240</y>
+       <width>131</width>
+       <height>151</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="4">
-       <widget class="QTimeEdit" name="rtcTime">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="displayFormat">
-         <string>HH:mm:ss</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>RTC</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>50</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Temperatura Ambiente</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="tempAmbInfo">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="acceptDrops">
-         <bool>true</bool>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>0.0</string>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Ref. de temp.</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLineEdit" name="tempRefInfo">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>0.0</string>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Período de Alerta</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QTimeEdit" name="periodoAlertaInfo">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="displayFormat">
-         <string>HH:mm:ss</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Velocidade do Ventilador</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="umidadeInfo">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>0.0</string>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="FanSpeedInfo">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>0.0</string>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Umidade</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="3" column="4">
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
+     <property name="title">
+      <string>Avisos</string>
+     </property>
+     <widget class="QCheckBox" name="SegModCBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>74</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Segurança</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="AlarmStatusInfo">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>104</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Alarme de tempo</string>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="tempRefInfo">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="digitCount">
+       <number>5</number>
+      </property>
+      <property name="segmentStyle">
+       <enum>QLCDNumber::Flat</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Temp. de Ref. (°C)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </widget>
-   </widget>
-   <widget class="QWidget" name="tab_2">
-    <attribute name="title">
-     <string>Configurações</string>
-    </attribute>
-    <widget class="QWidget" name="formLayoutWidget_2">
+    <widget class="QWidget" name="formLayoutWidget_3">
      <property name="geometry">
       <rect>
-       <x>7</x>
-       <y>8</y>
-       <width>441</width>
-       <height>100</height>
+       <x>320</x>
+       <y>400</y>
+       <width>391</width>
+       <height>25</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Período de Alerta (hh:mm:ss)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QDoubleSpinBox" name="tempRef">
-        <property name="statusTip">
-         <string/>
-        </property>
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
-        </property>
-        <property name="inputMethodHints">
-         <set>Qt::ImhFormattedNumbersOnly</set>
-        </property>
-        <property name="minimum">
-         <double>30.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>45.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.500000000000000</double>
-        </property>
-        <property name="value">
-         <double>37.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QTimeEdit" name="periodoAlerta">
-        <property name="dateTime">
-         <datetime>
-          <hour>8</hour>
-          <minute>0</minute>
-          <second>0</second>
-          <year>2000</year>
-          <month>1</month>
-          <day>1</day>
-         </datetime>
-        </property>
-        <property name="displayFormat">
-         <string>HH:mm:ss</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Temperatura de Referência (°C)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>Porta Serial</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QComboBox" name="serialPort">
-        <property name="currentText">
-         <string/>
-        </property>
-        <property name="modelColumn">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>50</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
        </spacer>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="formLayoutWidget_3">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>120</y>
-       <width>239</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="connectarButton">
-        <property name="text">
-         <string>Conectar</string>
-        </property>
-       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="confirmar">
@@ -386,11 +577,48 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="DesAlarmButton">
+        <property name="text">
+         <string>Desativar Alarme</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
+    <zorder>splitter</zorder>
+    <zorder>groupBox_3</zorder>
+    <zorder>groupBox_2</zorder>
+    <zorder>groupBox_4</zorder>
+    <zorder>formLayoutWidget_3</zorder>
    </widget>
   </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="statusTip">
+    <string>0</string>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>733</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
