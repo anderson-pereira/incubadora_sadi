@@ -79,13 +79,13 @@ void ParseData() // split the data into its parts
 
   Data = strtok(NULL, " :");
   M_FAN = atoi(Data); // Modo do ventilador
-  if(M_FAN!= 1) M_FAN =0;
+  if(M_FAN!= 0) M_FAN =1;
 
   Data = strtok(NULL, " :");
   V_FAN = atoi(Data); // Vel Do Ventilador
 
   Data = strtok(NULL, " :");
-  ALM_DIS = atoi(Data); // Disarmar Alarme
+  ALM_DIS = atoi(Data); // Desarmar Alarme
 
   Data = strtok(NULL, " :");
   ALM1 = atoi(Data); // Hora
@@ -136,22 +136,34 @@ void loop()
   char buffer_v[50];
   hum = dht.readHumidity();
   temp = dht.readTemperature();
-  if(M_FAN==1){ //fan=V_FAN; 
-    if(V_FAN==0)fan=0;
-    else{
-      if(V_FAN==1)fan=33;
-      else{
-        if(V_FAN==2)fan=66;
-        else{
-          if(V_FAN==3)fan=100;
-            }
-          }
-        }
+  
+  if(M_FAN==0){ //Ventilador no Manual
+    fan=V_FAN;
+    if(fan==100){
+      digitalWrite(FAN1,HIGH);
+      digitalWrite(FAN2,HIGH);
+      digitalWrite(FAN3,HIGH);
     }
+    else if(fan==66){
+      digitalWrite(FAN1,HIGH);
+      digitalWrite(FAN2,HIGH);
+      digitalWrite(FAN3,LOW);
+    }
+    else if(fan==33){
+      digitalWrite(FAN1,HIGH);
+      digitalWrite(FAN2,LOW);
+      digitalWrite(FAN3,LOW);
+    }
+    else if(fan==0){
+      digitalWrite(FAN1,LOW);
+      digitalWrite(FAN2,LOW);
+      digitalWrite(FAN3,LOW);
+    }
+  }
   
   if((temp> T+3)||(temp<T-3)){
     M_S = 1;
-    M_FAN = 0;
+    M_FAN = 1;
     tone(BUZZERPIN, 1000);
     delay(3000);
     noTone(BUZZERPIN);
@@ -178,7 +190,7 @@ void loop()
     { // Temperatura muito baixa, desligar ventilador, ligar lâmpada
       digitalWrite(RELAY, LOW);
       delay(1000);
-      if(M_FAN==0){  // Ventilador no auto
+      if(M_FAN==1){  // Ventilador no auto
       digitalWrite(FAN1, LOW);
       digitalWrite(FAN2, LOW);
       digitalWrite(FAN3, LOW);
@@ -204,7 +216,7 @@ void loop()
     { // Temperatura muito alta, ligar ventilador, desligar lâmpada
       digitalWrite(RELAY, HIGH);
       delay(1000);
-      if(M_FAN==0){  // Ventilador no auto
+      if(M_FAN==1){  // Ventilador no auto
       digitalWrite(FAN1, HIGH);
       digitalWrite(FAN2, HIGH);
       digitalWrite(FAN3, HIGH);
@@ -216,7 +228,7 @@ void loop()
   {
     if (temp > temph)
     { // Temperatura aumentando
-      if(M_FAN==0){  // Ventilador no auto
+      if(M_FAN==1){  // Ventilador no auto
       digitalWrite(FAN1, HIGH);
       digitalWrite(FAN2, LOW);
       digitalWrite(FAN3, LOW);
@@ -229,7 +241,7 @@ void loop()
       delay(1000);
     }
   }
-  
+
      if (digitalRead(FAN1)==HIGH)
   {
     if (digitalRead(FAN2)==HIGH)
