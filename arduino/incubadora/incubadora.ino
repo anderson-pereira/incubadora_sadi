@@ -139,17 +139,17 @@ void loop()
   
   if(M_FAN==0){ //Ventilador no Manual
     fan=V_FAN;
-    if(fan==100){
+    if(fan==3){
       digitalWrite(FAN1,HIGH);
       digitalWrite(FAN2,HIGH);
       digitalWrite(FAN3,HIGH);
     }
-    else if(fan==66){
+    else if(fan==2){
       digitalWrite(FAN1,HIGH);
       digitalWrite(FAN2,HIGH);
       digitalWrite(FAN3,LOW);
     }
-    else if(fan==33){
+    else if(fan==1){
       digitalWrite(FAN1,HIGH);
       digitalWrite(FAN2,LOW);
       digitalWrite(FAN3,LOW);
@@ -247,12 +247,12 @@ void loop()
     if (digitalRead(FAN2)==HIGH)
     {
       if (digitalRead(FAN3)==HIGH)
-        fan = 100;
+        fan = 3;
       else
-        fan = 66;
+        fan = 2;
     }
     else
-      fan = 33;
+      fan = 1;
   }
   else
   {
