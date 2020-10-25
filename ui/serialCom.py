@@ -1,9 +1,13 @@
 import serial
 import serial.tools.list_ports
 import re
+import queue
+import threading, time
 
 expressoesRegulares = list()
 portaSerial = 0
+queue = queue.Queue(20)
+ExitThread = False
 
 # TS:   Temperatura configurada em °C
 # TR:   Temperatura real no momento da leitura em °C
@@ -33,15 +37,22 @@ def getSerialPorts () :
     return ports
 
 
+def serial_read(s):
+    global portaSerial
+    while not ExitThread:
+        line = s.readline().decode()
+        queue.put(line)
+
 
 def initSerialCom (serialDevice) :
     global portaSerial, expressoesRegulares
 
-    portaSerial = serial.Serial(serialDevice, 9600, timeout=0.1)
+    portaSerial = serial.Serial(serialDevice, 9600, timeout=1)
     
     for rgx in regexList:
         expressoesRegulares.append(re.compile(rgx))
 
+    thread1 = threading.Thread(target=serial_read, args=(portaSerial,),).start()
 
 
 def closeSerialCom () :
@@ -51,6 +62,7 @@ def closeSerialCom () :
         portaSerial.flushInput()
         portaSerial.flushOutput()
         portaSerial.close()
+        ExitThread = True
     except:
         pass
 
@@ -59,10 +71,22 @@ def closeSerialCom () :
 def readDataFromSerial () :
     rectMsg = list()
     try:
-        # portaSerial.write(b's')
-        # portaSerial.flushInput()
-        for _ in range(len(expressoesRegulares)) :
-            rectMsg.append( portaSerial.readline().decode() )
+        
+        if queue.empty() : return 0
+        if queue.qsize() < len(expressoesRegulares) : return 0
+
+        line = queue.get(True, 1)
+        while "TS:" not in line :
+            if queue.empty() : return 0
+            line = queue.get(True, 1)
+
+        rectMsg.append( line )    
+
+        for _ in range(len(expressoesRegulares)-1) :
+            if queue.empty() : return 0
+            line = queue.get(True, 1)
+            rectMsg.append( line )
+            
     except Exception as err:
         print (err)
         portaSerial.flushInput()

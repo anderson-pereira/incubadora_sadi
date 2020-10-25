@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>EncubadoraApp</class>
+ <widget class="QMainWindow" name="EncubadoraApp">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>733</width>
-    <height>481</height>
+    <width>810</width>
+    <height>500</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>810</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>811</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <kerning>true</kerning>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Encubadora-App</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon.png</normaloff>icon.png</iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>32</width>
+    <height>32</height>
+   </size>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="widget" native="true">
@@ -19,17 +52,17 @@
      <rect>
       <x>0</x>
       <y>10</y>
-      <width>721</width>
-      <height>431</height>
+      <width>811</width>
+      <height>471</height>
      </rect>
     </property>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>240</y>
-       <width>561</width>
-       <height>151</height>
+       <x>380</x>
+       <y>270</y>
+       <width>421</width>
+       <height>161</height>
       </rect>
      </property>
      <property name="title">
@@ -38,7 +71,7 @@
      <widget class="QLabel" name="label1">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>0</x>
         <y>19</y>
         <width>131</width>
         <height>20</height>
@@ -54,7 +87,7 @@
      <widget class="QTimeEdit" name="periodoAlerta">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>20</x>
         <y>119</y>
         <width>91</width>
         <height>20</height>
@@ -77,7 +110,7 @@
      <widget class="QDial" name="TimeDial">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>20</x>
         <y>39</y>
         <width>91</width>
         <height>81</height>
@@ -92,8 +125,11 @@
       <property name="pageStep">
        <number>1</number>
       </property>
+      <property name="value">
+       <number>16</number>
+      </property>
       <property name="sliderPosition">
-       <number>0</number>
+       <number>16</number>
       </property>
       <property name="tracking">
        <bool>true</bool>
@@ -108,7 +144,7 @@
      <widget class="QLabel" name="label4_2">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>150</x>
         <y>19</y>
         <width>111</width>
         <height>21</height>
@@ -130,7 +166,7 @@
      <widget class="QPushButton" name="FanSpeedAutoButton">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>210</x>
         <y>119</y>
         <width>41</width>
         <height>21</height>
@@ -149,7 +185,7 @@
      <widget class="QDial" name="fanSpeedDial">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>160</x>
         <y>39</y>
         <width>91</width>
         <height>81</height>
@@ -168,7 +204,7 @@
        <number>1</number>
       </property>
       <property name="value">
-       <number>3</number>
+       <number>2</number>
       </property>
       <property name="invertedAppearance">
        <bool>false</bool>
@@ -180,7 +216,7 @@
      <widget class="QDoubleSpinBox" name="FanSpeedMan">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>160</x>
         <y>119</y>
         <width>41</width>
         <height>20</height>
@@ -202,19 +238,19 @@
        <double>0.000000000000000</double>
       </property>
       <property name="maximum">
-       <double>3.000000000000000</double>
+       <double>2.000000000000000</double>
       </property>
       <property name="singleStep">
        <double>1.000000000000000</double>
       </property>
       <property name="value">
-       <double>3.000000000000000</double>
+       <double>2.000000000000000</double>
       </property>
      </widget>
      <widget class="QLabel" name="label2">
       <property name="geometry">
        <rect>
-        <x>420</x>
+        <x>280</x>
         <y>19</y>
         <width>131</width>
         <height>21</height>
@@ -230,7 +266,7 @@
      <widget class="QDoubleSpinBox" name="tempRef">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>300</x>
         <y>120</y>
         <width>91</width>
         <height>20</height>
@@ -261,7 +297,7 @@
      <widget class="QDial" name="tempDial">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>300</x>
         <y>39</y>
         <width>91</width>
         <height>81</height>
@@ -280,7 +316,7 @@
        <number>1</number>
       </property>
       <property name="value">
-       <number>300</number>
+       <number>370</number>
       </property>
       <property name="invertedAppearance">
        <bool>false</bool>
@@ -289,56 +325,14 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>131</width>
-        <height>121</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Porta Serial</string>
-      </property>
-      <widget class="QComboBox" name="serialPort">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>111</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="currentText">
-        <string/>
-       </property>
-       <property name="modelColumn">
-        <number>0</number>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="connectarButton">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>70</y>
-         <width>111</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Conectar</string>
-       </property>
-      </widget>
-     </widget>
     </widget>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="geometry">
       <rect>
        <x>9</x>
        <y>0</y>
-       <width>701</width>
-       <height>231</height>
+       <width>791</width>
+       <height>261</height>
       </rect>
      </property>
      <property name="title">
@@ -352,111 +346,9 @@
        <rect>
         <x>10</x>
         <y>20</y>
-        <width>581</width>
-        <height>201</height>
+        <width>771</width>
+        <height>231</height>
        </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_16">
-      <property name="geometry">
-       <rect>
-        <x>600</x>
-        <y>10</y>
-        <width>91</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Temperatura(°C)</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLCDNumber" name="tempAmbInfo">
-      <property name="geometry">
-       <rect>
-        <x>600</x>
-        <y>30</y>
-        <width>91</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::WinPanel</enum>
-      </property>
-      <property name="digitCount">
-       <number>5</number>
-      </property>
-      <property name="segmentStyle">
-       <enum>QLCDNumber::Flat</enum>
-      </property>
-     </widget>
-     <widget class="QLCDNumber" name="umidadeInfo">
-      <property name="geometry">
-       <rect>
-        <x>600</x>
-        <y>90</y>
-        <width>91</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::WinPanel</enum>
-      </property>
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="digitCount">
-       <number>5</number>
-      </property>
-      <property name="segmentStyle">
-       <enum>QLCDNumber::Flat</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_19">
-      <property name="geometry">
-       <rect>
-        <x>600</x>
-        <y>70</y>
-        <width>91</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Umidade (%)</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QProgressBar" name="FanSpeedInfo">
-      <property name="geometry">
-       <rect>
-        <x>600</x>
-        <y>150</y>
-        <width>91</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="value">
-       <number>24</number>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_18">
-      <property name="geometry">
-       <rect>
-        <x>600</x>
-        <y>130</y>
-        <width>91</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Velocidade do Fan</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>
@@ -464,9 +356,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>240</y>
-       <width>131</width>
-       <height>151</height>
+       <y>270</y>
+       <width>141</width>
+       <height>71</height>
       </rect>
      </property>
      <property name="title">
@@ -474,12 +366,12 @@
      </property>
      <widget class="QCheckBox" name="SegModCBox">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>30</y>
+        <y>20</y>
         <width>74</width>
         <height>17</height>
        </rect>
@@ -487,15 +379,18 @@
       <property name="text">
        <string>Segurança</string>
       </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QCheckBox" name="AlarmStatusInfo">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>50</y>
+        <y>40</y>
         <width>104</width>
         <height>17</height>
        </rect>
@@ -503,48 +398,16 @@
       <property name="text">
        <string>Alarme de tempo</string>
       </property>
-     </widget>
-     <widget class="QLCDNumber" name="tempRefInfo">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>90</y>
-        <width>111</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::WinPanel</enum>
-      </property>
-      <property name="digitCount">
-       <number>5</number>
-      </property>
-      <property name="segmentStyle">
-       <enum>QLCDNumber::Flat</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_14">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>70</y>
-        <width>111</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Temp. de Ref. (°C)</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
+      <property name="checkable">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
     <widget class="QWidget" name="formLayoutWidget_3">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>400</y>
+       <x>410</x>
+       <y>440</y>
        <width>391</width>
        <height>25</height>
       </rect>
@@ -586,11 +449,259 @@
       </item>
      </layout>
     </widget>
-    <zorder>splitter</zorder>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>350</y>
+       <width>141</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Porta Serial</string>
+     </property>
+     <widget class="QComboBox" name="serialPort">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>121</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="currentText">
+       <string/>
+      </property>
+      <property name="modelColumn">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="connectarButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>121</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Conectar</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>269</y>
+       <width>211</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Ultimos Valores</string>
+     </property>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Temp. de Ref. (°C)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="tempRefInfo">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="smallDecimalPoint">
+       <bool>false</bool>
+      </property>
+      <property name="digitCount">
+       <number>5</number>
+      </property>
+      <property name="segmentStyle">
+       <enum>QLCDNumber::Flat</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Temperatura(°C)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="tempAmbInfo">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="digitCount">
+       <number>5</number>
+      </property>
+      <property name="segmentStyle">
+       <enum>QLCDNumber::Flat</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>20</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Umidade (%)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="umidadeInfo">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>40</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>MS Shell Dlg 2</family>
+        <underline>false</underline>
+        <stylestrategy>PreferDefault</stylestrategy>
+        <kerning>false</kerning>
+       </font>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="textVisible">
+       <bool>true</bool>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="format">
+       <string>%p%</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>80</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Velocidade do Fan</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="FanSpeedInfo">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>100</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>MS Shell Dlg 2</family>
+        <underline>false</underline>
+        <stylestrategy>PreferDefault</stylestrategy>
+        <kerning>false</kerning>
+       </font>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="textVisible">
+       <bool>true</bool>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="format">
+       <string>%p%</string>
+      </property>
+     </widget>
+    </widget>
     <zorder>groupBox_3</zorder>
     <zorder>groupBox_2</zorder>
     <zorder>groupBox_4</zorder>
     <zorder>formLayoutWidget_3</zorder>
+    <zorder>groupBox</zorder>
+    <zorder>groupBox_5</zorder>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar">
@@ -599,16 +710,6 @@
    </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
-   </property>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>733</width>
-     <height>21</height>
-    </rect>
    </property>
   </widget>
  </widget>

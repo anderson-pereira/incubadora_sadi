@@ -12,7 +12,9 @@ class Ui(QtWidgets.QMainWindow):
         self.configuredSerial = False
         self.quitThread = False
         self.disableAlarm = False
+        self.pci = 0
 
+        self.HumidityArray = list()
         self.temperatureArray = list()
         self.timeArray = list()
 
@@ -41,17 +43,48 @@ class Ui(QtWidgets.QMainWindow):
         self.statusbar.addWidget(self.statusLabel,1)
         
         self.graphicsView.setBackground(QtGui.QBrush(QtGui.QColor("#f0f0f0"))) 
-        
-        
+
+        print(type(self.graphicsView))
+
         axis = timestamp.DateAxisItem(orientation='bottom')
-        self.graphicsView.setLabel('left', "Temperatura (°C)")
         axis.attachToPlotItem(self.graphicsView.getPlotItem())
-        self.graphicsView.showGrid(x=True,y=True)
+
+
+        # self.graphicsView.showGrid(x=True,y=True)
         self.show()
+
+
+        self.p = self.graphicsView.getPlotItem()
+        # self.p.setXRange(0,10)
+        # self.p.setYRange(-10,10)
+        self.p.getAxis('bottom').setPen(pyqtgraph.mkPen(color='#000000', width=1))
+        self.p.setLabel('left', 'Temperatura', units='°C', color='#c4380d', **{'font-size':'10pt'})
+        self.p.getAxis('left').setPen(pyqtgraph.mkPen(color='#c4380d', width=1))
+        self.curve = self.p.plot(x=[], y=[], pen=pyqtgraph.mkPen(color='#c4380d', width=1.5))
+        self.p.showAxis('right')
+        self.p.setLabel('right', 'Umidade', units="%", color='#025b94', **{'font-size':'10pt'})
+        self.p.getAxis('right').setPen(pyqtgraph.mkPen(color='#025b94', width=1))
+
+        self.p2 = pyqtgraph.ViewBox()
+        self.p.scene().addItem(self.p2)
+        self.p.getAxis('right').linkToView(self.p2)
+        self.p2.setXLink(self.p)
+        # self.p2.setYRange(-10,10)
+
+        self.curve2 = pyqtgraph.PlotCurveItem(pen=pyqtgraph.mkPen(color='#025b94', width=1.5))
+        self.p2.addItem(self.curve2)
+        
 
         self.updateValsTh = QtCore.QTimer()
         self.updateValsTh.timeout.connect(self.updateVals)
-        self.updateValsTh.start(2000)
+        self.updateValsTh.start(1000)
+
+        self.updateViews()
+        self.p.getViewBox().sigResized.connect(self.updateViews)
+
+    def updateViews(self):
+        self.p2.setGeometry(self.p.getViewBox().sceneBoundingRect())
+        self.p2.linkedViewChanged(self.p.getViewBox(), self.p2.XAxis)
 
     def FanSpeedAutoButtonPressed(self):
         self.confirmarPressed()
@@ -59,7 +92,6 @@ class Ui(QtWidgets.QMainWindow):
 
     def TimeDialChange (self) :
         # self.periodoAlerta.setTime(QtCore.QTime(int(self.fanSpeedDial.value()/60),int(self.fanSpeedDial.value()%60),0,0))
-        self.FanStatusInfo.setText(str(self.TimeDial.value()))
         self.periodoAlerta.setTime(QtCore.QTime(int(self.TimeDial.value()/2), int(self.TimeDial.value()%2*30)))
 
     def FanSpeedManChanged(self) :
@@ -130,6 +162,8 @@ class Ui(QtWidgets.QMainWindow):
 
         try:
             msg = serialCom.readDataFromSerial()
+            if not msg:
+                return
             data = serialCom.dataParse(msg)
             if data:
                 self.tempAmbInfo.display(float(data['TR']))
@@ -138,14 +172,20 @@ class Ui(QtWidgets.QMainWindow):
 
                 self.FanSpeedAutoButton.setChecked(int(data['FAN_STATUS']))
 
-                self.umidadeInfo.display(float(data['HM']))
+                self.umidadeInfo.setValue(int(float(data['HM'])))
                 self.AlarmStatusInfo.setCheckState(int(data['ALM_STATUS']))
 
                 self.SegModCBox.setCheckState(int(data['MOD_SEG']))
 
                 self.temperatureArray.append(float(data['TR']))
                 self.timeArray.append(time.time())
-                
+                self.HumidityArray.append(float(data['HM']))
+
+                if len(self.temperatureArray) > 120:
+                    del self.temperatureArray[0]
+                    del self.timeArray[0]
+                    del self.HumidityArray[0]
+
                 self.statusbar.removeWidget(self.statusLabel)
 
                 self.statusLabel = QtWidgets.QLabel("HORÁRIO: {}    ALARME: {}".format(data['RTC'], data['ALM']))
@@ -153,16 +193,32 @@ class Ui(QtWidgets.QMainWindow):
                 self.statusLabel.setAlignment(QtCore.Qt.AlignRight)
                 self.statusbar.addWidget(self.statusLabel,1)
 
-                self.graphicsView.clear()
-                self.graphicsView.plot(self.timeArray, self.temperatureArray, pen=pyqtgraph.mkPen('k', width=2, style=QtCore.Qt.SolidLine))
+                self.curve.setData(x=self.timeArray, y=self.temperatureArray)
+                self.curve2.setData(x=self.timeArray, y=self.HumidityArray)
+                # if self.pci :
+                #     self.p1.clear()
+                #     self.p2.removeItem( self.pci )
+
+                # self.pci = pyqtgraph.PlotCurveItem(self.HumidityArray, pen='b')
+
+                # self.p1.clear()
+                # self.p1.clear()
+                # self.p1.setGeometry(self.graphicsView.plotItem.vb.sceneBoundingRect())
+                # self.p2.setGeometry(self.graphicsView.plotItem.vb.sceneBoundingRect())
+
+                # self.graphicsView.plot( self.temperatureArray, pen='k')
+                # self.p2.plot( self.HumidityArray, pen='b')
 
         except Exception as err:
             print(err)
         return 
+    
+    def myExitHandler (self):
+        serialCom.closeSerialCom ()
 
 
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
-# app.aboutToQuit.connect(window.myExitHandler)
+app.aboutToQuit.connect(window.myExitHandler)
 app.exec_()
