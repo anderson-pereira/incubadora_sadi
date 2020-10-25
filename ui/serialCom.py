@@ -47,7 +47,7 @@ def serial_read(s):
 def initSerialCom (serialDevice) :
     global portaSerial, expressoesRegulares
 
-    portaSerial = serial.Serial(serialDevice, 9600, timeout=1)
+    portaSerial = serial.Serial(serialDevice, 9600, timeout=5)
     
     for rgx in regexList:
         expressoesRegulares.append(re.compile(rgx))

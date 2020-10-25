@@ -703,14 +703,22 @@
     <zorder>groupBox</zorder>
     <zorder>groupBox_5</zorder>
    </widget>
-  </widget>
-  <widget class="QStatusBar" name="statusbar">
-   <property name="statusTip">
-    <string>0</string>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
+   <widget class="QLabel" name="statusbar">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>480</y>
+      <width>791</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>HORÁRIO: 00:00:00   ALARME: 00:00:00</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
