@@ -94,6 +94,11 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def redefinirConfigs(self) :
+        self.temperatureArray.clear()
+        self.timeArray.clear()
+        self.HumidityArray.clear()
+        self.curve.setData(x=self.timeArray, y=self.temperatureArray)
+        self.curve2.setData(x=self.timeArray, y=self.HumidityArray)
         pass
 
 

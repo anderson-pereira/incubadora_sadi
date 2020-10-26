@@ -382,6 +382,9 @@
       <property name="checkable">
        <bool>false</bool>
       </property>
+      <property name="tristate">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QCheckBox" name="AlarmStatusInfo">
       <property name="enabled">
@@ -400,6 +403,12 @@
       </property>
       <property name="checkable">
        <bool>false</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <property name="tristate">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
