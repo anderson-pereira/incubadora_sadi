@@ -161,7 +161,7 @@ void loop()
     }
   }
   
-  if((temp> T+3)||(temp<T-3)){
+  if((M_FAN==0)&&((temp> T+3)||(temp<T-3))){
     M_S = 1;
     M_FAN = 1;
     tone(BUZZERPIN, 1000);
